@@ -27,22 +27,6 @@ static int nCr(int n, int r)
     return fact(n) / (fact(r) * fact(n - r));
 }
 
-static double
-rect(double t, double low, double up){
-    return ((t>=low)  && (t< up)? 1 : 0);
-}
-
-
-static double impul(double t){
-    return (t==0 ? 1 : 0);
-}
-
-
-/*double taPow(double a, double r){
-    return pow(t-a, r)
-}*/
-
-
 static double my_fct(double t, double a, double k){
     return (t>= a ? pow(t-a, k) : 0);
 }
@@ -61,7 +45,8 @@ kernel(
 )
 {
     if(base== "PL"){
-        return k*theta*pow(c,theta)/(pow((c+(r+1)*del),(1+theta)));
+       // return k*theta*pow(c,theta)/(pow((c+(r+1)*del),(1+theta)));
+        return k*theta*pow(c,theta)/(pow((c+t),(1+theta)));
     }
     else if (base=="Exp"){
         return k*theta*exp(-theta*t);
@@ -89,7 +74,14 @@ ar(
     return del*kernel(r,  k,  t,  theta,  c,  sig,  del, base);
 }
 
+double volterra::rect(double t, double low, double up){
+    return ((t>=low)  && (t< up)? 1 : 0);
+}
 
+
+double volterra::impul(double t){
+    return (t==0 ? 1 : 0);
+}
 double
 volterra::beta(
         int n,

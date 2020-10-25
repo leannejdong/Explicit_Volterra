@@ -8,6 +8,8 @@
 #include <string>
 
 namespace volterra {
+    double impul(double t);
+    double rect(double t, double low, double up);
     double series(int n, double t);
 
     double findError(double h1,double h2);
@@ -26,6 +28,7 @@ namespace volterra {
     );
 
     void norms(double* x, int n, double& norm1, double& norminf);
+
 };
 
 #endif //EXPLICIT_VOLTERRA_VOLTERRA_H
