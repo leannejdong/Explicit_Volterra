@@ -52,7 +52,7 @@ int main() {
 //    delete[] x;
 
 
-    cout  << "           N          n         r          beta_n        gamma_n         rect           h          h_n           error";
+    cout  << "           N          n         r          beta_n          rect            gamma_n              h          h_n           error";
     cout << "  " << "  " << endl << endl;
 
     cout << fixed << setprecision(6);
@@ -63,8 +63,9 @@ int main() {
     for (int n=1; n<nn+1; n++){
         for (double m=0; m<n; m++){
             sum1 += beta(n,m,k,t,theta,c,sig,del,base)* series(n,t-m);
-            sum2 += (1/del)*beta(n,m,k,t,theta,c,sig,del,base)* series(n,t*(1/del)-m);
-            cout << setw(12) << nn << setw(12) << n << setw(12) << m << setw(13) << beta(n,m,k,t,theta,c,sig,del,base) << setw(13)<< rect(t, 0.1, 9.9) << setw(13) << sum1 << setw(13) << sum2 << setw(13) << findError(sum2,sum1);
+            sum2 += (1/del)*beta(n,m,k,t*(1/del),theta,c,sig,del,base)* series(n,t*(1/del)-m);
+            cout << setw(12) << nn << setw(12) << n << setw(12) << m << setw(13) << beta(n,m,k,t,theta,c,sig,del,base) << setw(13)<< rect(t, 0.1, 9.9)
+                 << setw(18) << series(n,t) << setw(18) << sum1 << setw(18) << sum2 << setw(18) << findError(sum2,sum1);
             cout << endl;
         }
     }

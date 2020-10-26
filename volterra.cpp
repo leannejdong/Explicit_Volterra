@@ -8,16 +8,17 @@
 #include <iomanip>
 #include <string>
 #include <cassert>
+#include <ranges>
+#include <numeric>
 using namespace std;
+using namespace std::ranges;
 
 
 // Returns factorial of n
 static int fact(int n)
 {
-    int res = 1;
-    for (int i = 2; i <= n; i++)
-        res = res * i;
-    return res;
+    std::ranges::iota_view v{1, n+1};
+    return std::accumulate(v.begin(), v.end(), 1, std::multiplies<>());
 }
 
 
@@ -79,9 +80,9 @@ double volterra::rect(double t, double low, double up){
 }
 
 
-double volterra::impul(double t){
-    return (t==0 ? 1 : 0);
-}
+//double volterra::impul(double t){
+//    return (t==0 ? 1 : 0);
+//}
 double
 volterra::beta(
         int n,
@@ -108,9 +109,12 @@ volterra::beta(
         return ar(r,k,t,theta,c,sig,del,base);
     }
     else {
-        value =
-                beta(n,r,k,t,theta,c,sig,del,base) +
-                ar(1,k,t,theta,c,sig,del,base)*beta(n-1,r,k,t,theta,c,sig,del,base);
+        for (l = 0; l <= n; l++)
+        {
+            value +=
+                    beta(n,r,k,t,theta,c,sig,del,base) +
+                    ar(l,k,t,theta,c,sig,del,base)*beta(n-l,r,k,t,theta,c,sig,del,base);
+        }
 
         // lacking an argument, also need to incorporate kernel
         return value;
