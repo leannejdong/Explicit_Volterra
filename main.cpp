@@ -29,8 +29,10 @@ kernel(
     else if (base=="RL"){
         return (kappa*t/(pow(sig,2)))*exp(-t*t/(2*pow(sig,2)));
     }
-
-    assert(false); // shouldn't happen
+    else {
+        assert(false); // shouldn't happen
+        return 0;
+    }
 }
 
 
