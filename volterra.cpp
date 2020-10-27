@@ -10,7 +10,7 @@
 #include <ranges>
 #include <numeric>
 using namespace std;
-using namespace std::ranges;
+//using namespace std::ranges;
 using std::cerr;
 
 // Returns factorial of n
