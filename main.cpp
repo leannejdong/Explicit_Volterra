@@ -3,13 +3,41 @@
 #include <cmath>
 #include <iomanip>
 #include <string>
+#include <cassert>
 
 using namespace std;
+
+static double
+kernel(
+        //int,
+        double k,
+        double t,
+        double theta,
+        double c,
+        double sig,
+       // double,
+        std:: string& base
+)
+{
+    if(base== "PL"){
+        // return k*theta*pow(c,theta)/(pow((c+(r+1)*del),(1+theta)));
+        return k*theta*pow(c,theta)/(pow((c+t),(1+theta)));
+    }
+    else if (base=="Exp"){
+        return k*theta*exp(-theta*t);
+    }
+    else if (base=="RL"){
+        return (k*t/(pow(sig,2)))*exp(-t*t/(2*pow(sig,2)));
+    }
+
+    assert(false); // shouldn't happen
+}
+
 
 int main() {
     using volterra::rect;
     using volterra::beta;
-    using volterra::series;
+    using volterra::gamma_n;
     using volterra::findError;
     using volterra::norms;
 
@@ -36,21 +64,21 @@ int main() {
     cout <<" Enter the value for c: ";
     cin >> c;
 
-    cout <<" Enter the value for sigma (>=1, Rayleigh only!): ";
-    cin >> sig;
+  //  cout <<" Enter the value for sigma (Enter a number >=1, for Rayleigh only! Otherwise, enter any key to continue): ";
+  //  cin >> sig;
 
     cout <<" Enter the value for delta: ";
     cin >> del;
 
-//    double* x = new double[n];
-//    x[0]=-5.1; x[1]=2.3; x[2]=3.7; x[3]=1.1; x[4]=0.7;
-//    double norm1;
-//    double norminf;
-//    norms(x,n,norm1,norminf);
-//    cout << "norm1 = " << norm1 << endl;
-//    cout << "norminf = " << norminf << endl;
-//    delete[] x;
-
+    double x[] = {1,-2,3};
+    double norm1;
+    double norminf;
+    norms(x, 3, norm1, norminf);
+    assert(x[0] == 1);
+    assert(x[1] == 2);
+    assert(x[2] == 3);
+    assert(norm1 == 1+2+3);
+    assert(norminf == 3);
 
     cout  << "           N          n         r              rect            gamma_n              h          h_n           error";
     cout << "  " << "  " << endl << endl;
@@ -60,12 +88,20 @@ int main() {
     double sum1 = 0.0;
     double sum2 = 0.0;
 
-    for (int n=1; n<nn+1; n++){
-        for (double m=0; m<n; m++){
-            sum1 += beta(n,m,k,t,theta,c,sig,del,base)* series(n,t-m);
-            sum2 += (1/del)*beta(n,m,k,t*(1/del),theta,c,sig,del,base)*(1/del)*series(n,t-m);
+    for (int n=1; n<nn+1; ++n){
+        for (double m=0; m<n-1; ++m){
+            auto a =
+                    [&](int r, double t){
+                        return kernel(k, t, theta, c, sig, base);
+                    };
+            sum1 += beta(n, m, a, t)* gamma_n(t-m,n);
+            //sum2 += (1.0/del)*beta(n,m,a,t)*gamma_n(t*(1.0/del)-m, n);
+            for (double mk = 0; mk < n; ++mk){
+                sum2 += beta(n, m, a, t)*gamma_n((1.0/del)*t-m-mk, n);
+            }
+         //   }
             cout << setw(12) << nn << setw(12) << n << setw(12) << m << setw(13)<< rect(t, 0.1, 9.9)
-                 << setw(18) << series(n,t) << setw(18) << sum1 << setw(18) << sum2 << setw(18) << findError(sum2,sum1);
+                 << setw(18) << gamma_n(t, n) << setw(18) << sum1 << setw(18) << sum2 << setw(18) << findError(sum2,sum1);
             cout << endl;
         }
     }
