@@ -7,7 +7,7 @@
 #include <iomanip>
 #include <string>
 #include <cassert>
-#include <ranges>
+//#include <ranges>
 #include <numeric>
 using namespace std;
 //using namespace std::ranges;
