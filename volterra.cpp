@@ -14,7 +14,7 @@ using namespace std::ranges;
 using std::cerr;
 
 // Returns factorial of n
-static int fact(int n)
+static double fact(int n)
 {
     std::ranges::iota_view v{1, n+1};
     return std::accumulate(v.begin(), v.end(), 1, std::multiplies<>());
@@ -22,7 +22,7 @@ static int fact(int n)
 
 
 // Function definition
-static int nCr(int n, int r)
+static double nCr(int n, int r)
 {
     return fact(n) / (fact(r) * fact(n - r));
 }
@@ -31,11 +31,11 @@ static int nCr(int n, int r)
 //    return (t>= a ? pow(t-a, k) : 0);
 //}
 
-static int step(double x)
-{
-    if (x<0) return 0;
-    return 1;
-}
+//static int step(double x)
+//{
+//    if (x<0) return 0;
+//    return 1;
+//}
 
 template <typename A>
 static double ar(int r, double t, const A &a)
@@ -44,12 +44,7 @@ static double ar(int r, double t, const A &a)
 }
 
 double
-volterra::beta(
-        int n,
-        int r,
-        std::function<double(int r, double t)> a,
-        double t
-)
+volterra::beta(int n, int r, std::function<double(int r, double t)> a, double t)
 {
     double value = 0;
     int l;
@@ -92,13 +87,17 @@ double volterra::findError(double h1,double h2)
 
 double volterra::gamma_n(double t, int n)
 {
+    if (t > n/2) {
+        t = n-t;
+    }
     using std::pow;
     using std::max;
     double sum = 0;
 
     for (int r = 0; r <= n; ++r)
     {
-        double term = pow(-1, r)*nCr(n, r)*(1.0/fact(n-1))*pow(max(t-r, 0.0), n-1);
+       // double term = pow(-1, r)*nCr(n, r)*(1.0/fact(n-1))*pow(max(t-r, 0.0), n-1);
+        double term = pow(-1,r)*(n/(fact(r)*fact(n-r)))*pow(max(t-r,0.0),n-1);
         sum += term;
     }
     return sum;

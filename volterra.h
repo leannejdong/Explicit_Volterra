@@ -13,10 +13,11 @@ namespace volterra {
 
     double findError(double h1,double h2);
     double gamma_n(double t, int n);
-    double beta(int n, int r, std::function<double(int r, double t)> a, double t);
+    double beta(int n, int r, std::function<double(int r, double t)> a);
 
     void norms(double* x, int n, double& norm1, double& norminf);
 
+    double beta(int n, int r, std::function<double(int, double)> a, double t);
 };
 
 #endif //EXPLICIT_VOLTERRA_VOLTERRA_H
