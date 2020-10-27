@@ -82,12 +82,12 @@ double volterra::rect(double t){
     return ((t>=1)  && (t< 0)? 1 : 0);
 }
 
-void volterra::norms(double* x, int n, double& norm1, double& norminf)
-{
-    std::transform(x, x+n, x, [](double x){ return fabs(x); });
-    norm1 = std::accumulate(x, x+n, 0.0);
-    norminf = *std::max_element(x, x+n);
-}
+//void volterra::norms(double* x, int n, double& norm1, double& norminf)
+//{
+//    std::transform(x, x+n, x, [](double x){ return fabs(x); });
+//    norm1 = std::accumulate(x, x+n, 0.0);
+//    norminf = *std::max_element(x, x+n);
+//}
 
 double volterra::findError(double h1,double h2)
 {

@@ -14,7 +14,7 @@ namespace volterra {
     double findError(double h1,double h2);
     double gamma_n(double t, int n);
     double beta(int n, int r, std::function<double(int r)> a);
-    void norms(double* x, int n, double& norm1, double& norminf);
+    //void norms(double* x, int n, double& norm1, double& norminf);
     double beta(int n, int r, std::function<double(int)> a, double t);
 }
 

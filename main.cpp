@@ -41,7 +41,7 @@ int main() {
     using volterra::beta;
     using volterra::gamma_n;
     using volterra::findError;
-    using volterra::norms;
+//    using volterra::norms;
 
     int n, nn;
     double kappa, theta, c, sig;
