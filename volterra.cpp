@@ -14,18 +14,30 @@ using namespace std::ranges;
 using std::cerr;
 
 // Returns factorial of n
+//static double fact(int n)
+//{
+//    std::ranges::iota_view v{1, n+1};
+//    return std::accumulate(v.begin(), v.end(), 1, std::multiplies<>());
+//}
+
 static double fact(int n)
 {
-    std::ranges::iota_view v{1, n+1};
-    return std::accumulate(v.begin(), v.end(), 1, std::multiplies<>());
+    double product = 1;
+
+    while (n > 1) {
+        product *= n;
+        --n;
+    }
+
+    return product;
 }
 
 
 // Function definition
-static double nCr(int n, int r)
-{
-    return fact(n) / (fact(r) * fact(n - r));
-}
+//static double nCr(int n, int r)
+//{
+//    return fact(n) / (fact(r) * fact(n - r));
+//}
 
 //static double my_fct(double t, double a, double k){
 //    return (t>= a ? pow(t-a, k) : 0);
@@ -49,7 +61,7 @@ volterra::beta(int n, int r, std::function<double(int r, double t)> a, double t)
     double value = 0;
     int l;
 
-    if (n=0, r=0){
+    if (n=0, r==0){
         return 1;
     }
     else if (n=0, r>=1){
@@ -69,8 +81,8 @@ volterra::beta(int n, int r, std::function<double(int r, double t)> a, double t)
     }
 }
 
-double volterra::rect(double t, double low, double up){
-    return ((t>=low)  && (t< up)? 1 : 0);
+double volterra::rect(double t){
+    return ((t>=1)  && (t< 0)? 1 : 0);
 }
 
 void volterra::norms(double* x, int n, double& norm1, double& norminf)

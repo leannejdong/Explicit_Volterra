@@ -41,73 +41,35 @@ int main() {
     using volterra::findError;
     using volterra::norms;
 
-    int n, nn, r;
-    double k, t, theta, c, sig, del;
+    int n, nn;
+    double k, theta, c, sig;
     std::string base;
 
-
-    cout <<" Enter kernel: ";
-    getline (cin, base);
-    //cin >> base;
-    cout <<" Enter the value for t: ";
-    cin >> t;
-    cout <<" Enter the value for n (n>=0): ";
-    cin >> n;
-    cout <<" Enter the value for N (N>=1): ";
-    cin >> nn;
-    cout << " Enter the value for r: ";
-    cin >> r;
-    cout <<" Enter the value for k: ";
-    cin >> k;
-    cout <<" Enter the value for theta: ";
-    cin >> theta;
-    cout <<" Enter the value for c: ";
-    cin >> c;
-
-  //  cout <<" Enter the value for sigma (Enter a number >=1, for Rayleigh only! Otherwise, enter any key to continue): ";
-  //  cin >> sig;
-
-    cout <<" Enter the value for delta: ";
-    cin >> del;
-
-    double x[] = {1,-2,3};
-    double norm1;
-    double norminf;
-    norms(x, 3, norm1, norminf);
-    assert(x[0] == 1);
-    assert(x[1] == 2);
-    assert(x[2] == 3);
-    assert(norm1 == 1+2+3);
-    assert(norminf == 3);
-
-    cout  << "           N          n         r              rect            gamma_n              h          h_n           error";
-    cout << "  " << "  " << endl << endl;
+    base = "PL"; n = 80; nn = 5; k = 80; theta = 0.8; c = 1.1;
 
     cout << fixed << setprecision(6);
 
     int divs = 100;
     double low = -1;
     double high = n+1;
+    cerr << "gamma_n(1200)=" << gamma_n(1200,n) << "\n";
     for (int i = 0; i <=divs; ++i)
     {
         double t = low + (i/double(divs))*(high-low);
-        double sum1 = 0.0;
+       // double sum1 = 0.0;
         double sum2 = 0.0;
 
-        for (int n=1; n<nn+1; ++n){
-            for (double m=0; m<n-1; ++m){
+        for (int j=1; j<nn+1; ++j){
+            for (double kk=0; kk<j-1; ++kk){
                 auto a =
                         [&](int r, double t){
-                          return kernel(k, t, theta, c, sig, base);
+                          return r*kernel(k, t, theta, c, sig, base);
                         };
-               // sum1 += beta(n, m, a, t)* gamma_n(t-m,n);
-                sum2 += beta(n, m, a, t)*gamma_n(t-m, n);
-
-               // cout << setw(12) << nn << setw(12) << n << setw(12) << m << setw(13)<< rect(t, 0.1, 9.9)
-                //     << setw(18) << gamma_n(t, n) << setw(18) << sum1 << setw(18) << sum2 << setw(18) << findError(sum2,sum1);
-               // cout << endl;
+           //     sum1 += beta(n, m, a, t)* gamma_n(t-m,n);
+                sum2 += beta(j, kk, a, t)*gamma_n(t-kk, j);
             }
         }
+        cerr << " t= " << t << ", gamma_n(t, n)=" << gamma_n(t, n)  <<" , h_n=" << sum2 << "\n";
     }
 
     return 0;
