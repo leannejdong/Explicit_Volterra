@@ -50,24 +50,24 @@ static double fact(int n)
 //}
 
 template <typename A>
-static double ar(int r, double t, const A &a)
+static double ar(int r, double /*t*/, const A &a)
 {
-    return a(r, t);
+    return a(r);
 }
 
 double
-volterra::beta(int n, int r, std::function<double(int r, double t)> a, double t)
+volterra::beta(int n, int r, std::function<double(int r)> a, double t)
 {
     double value = 0;
     int l;
 
-    if (n=0, r==0){
+    if (n==0 || r==0){
         return 1;
     }
-    else if (n=0, r>=1){
+    else if (n=0 , r>=1){
         return 0;
     }
-    else if (n=1, r>=0){
+    else if (n=1 , r>=0){
         return ar(r, t, a);
     }
     else {
