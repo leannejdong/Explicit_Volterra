@@ -47,7 +47,7 @@ int main() {
     double kappa, theta, c, sig;
     std::string base;
 
-    base = "PL"; n = 80; nn = 5; kappa = 0.90; theta = 1.33; c = 1.1;
+    base = "PL"; n = 80; nn = 10; kappa = 0.80; theta = 0.8; c = 10;
 
     cout << fixed << setprecision(6);
 
@@ -68,7 +68,7 @@ int main() {
                           return kernel(kappa, t, theta, c, sig, base);
                         };
                 sum2 += beta(j, r, a, t)*gamma_n(t-r, j);
-                cerr << " t= " << t << ",  beta_n(j, r, a, t)=" << beta(j, r, a, t) << ", gamma_n(t-r, j)=" << gamma_n(t-r, j)
+                cerr << " t= " << t << ",  beta_n(j,r,a,t)=" << beta(j, r, a, t) << ", gamma_n(t-r,j)=" << gamma_n(t-r, j)
                      << " h_n= " << sum2 << "\n";
             }
         }
