@@ -32,23 +32,6 @@ static double fact(int n)
     return product;
 }
 
-
-// Function definition
-//static double nCr(int n, int r)
-//{
-//    return fact(n) / (fact(r) * fact(n - r));
-//}
-
-//static double my_fct(double t, double a, double k){
-//    return (t>= a ? pow(t-a, k) : 0);
-//}
-
-//static int step(double x)
-//{
-//    if (x<0) return 0;
-//    return 1;
-//}
-
 template <typename A>
 static double ar(int r, double /*t*/, const A &a)
 {
@@ -77,10 +60,11 @@ volterra::beta(int n, int r, std::function<double(int r)> a, double t)
         return value;
     }
 }
-
+#if 0
 double volterra::rect(double t){
     return ((t>=1)  && (t< 0)? 1 : 0);
 }
+#endif
 
 //void volterra::norms(double* x, int n, double& norm1, double& norminf)
 //{
