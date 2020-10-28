@@ -47,7 +47,7 @@ int main() {
     double kappa, theta, c, sig;
     std::string base;
 
-    base = "PL"; n = 80; nn = 10; kappa = 0.80; theta = 0.8; c = 10;
+    base = "PL"; n = 80; nn = 5; kappa = 0.80; theta = 0.8; c = 10;
 
     cout << fixed << setprecision(6);
 
