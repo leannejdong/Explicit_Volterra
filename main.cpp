@@ -68,10 +68,11 @@ int main() {
                           return kernel(kappa, t, theta, c, sig, base);
                         };
                 sum2 += beta(j, r, a, t)*gamma_n(t-r, j);
-                cerr << ", beta_n(n, r, a, t)" << beta(j, r, a, t) << "\n";
+                cerr << " t= " << t << ",  beta_n(j, r, a, t)=" << beta(j, r, a, t) << ", gamma_n(t-r, j)=" << gamma_n(t-r, j)
+                     << " h_n= " << sum2 << "\n";
             }
         }
-        cerr << " t= " << t  << ", gamma_n(t, n)=" << gamma_n(t, n)  <<" , h_n=" << sum2 << "\n";
+        //cerr << " t= " << t  << ", gamma_n(t, n)=" << gamma_n(t, n)  <<" , h_n=" << sum2 << "\n";
     }
 
     return 0;
