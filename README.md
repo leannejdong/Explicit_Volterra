@@ -6,3 +6,5 @@ Here we perform some mathematical calculation for our volterra explicit algorith
 
 - [volterra-explicit](https://arxiv.org/abs/1908.02862)
 
+Demo of Power Law completed. Back to exponential law next weekend.
+
