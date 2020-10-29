@@ -8,7 +8,8 @@
 
 using namespace std;
 
-static double
+enum class base { PL, Exp, RL};
+auto
 kernel(
         //int,
         double kappa,
@@ -17,38 +18,35 @@ kernel(
         double c,
         double sig,
        // double,
-        std:: string& base
+        base foo
 )
 {
-    if(base== "PL"){
-        // return kappa*theta*pow(c,theta)/(pow((c+(r+1)*del),(1+theta)));
-        return kappa*theta*pow(c,theta)/(pow((c+t),(1+theta)));
-    }
-    else if (base=="Exp"){
-        return kappa*theta*exp(-theta*t);
-    }
-    else if (base=="RL"){
-        return (kappa*t/(pow(sig,2)))*exp(-t*t/(2*pow(sig,2)));
-    }
-    else {
-        assert(false); // shouldn't happen
-        return 0;
+    switch (foo)
+    {
+        case base::PL:
+            return kappa*theta*pow(c,theta)/(pow((c+t), (1+theta)));
+        case base::Exp:
+            return kappa*theta*exp(-theta*t);
+        case base::RL:
+            return (kappa*t/(pow(sig,2)))*exp(-t*t/(2*pow(sig,2)));
+
+        default:
+            return 0.0;
     }
 }
-
 
 int main() {
     using volterra::rect;
     using volterra::beta;
     using volterra::gamma_n;
-    using volterra::findError;
+//    using volterra::findError;
 //    using volterra::norms;
 
     int n, nn;
     double kappa, theta, c, sig;
-    std::string base;
+   // std::string base;
 
-    base = "PL"; n = 80; nn = 5; kappa = 0.80; theta = 0.8; c = 10;
+    n = 80; nn = 5; kappa = 0.80; theta = 0.8; c = 10;
 
     cout << fixed << setprecision(6);
 
@@ -73,7 +71,7 @@ int main() {
                 auto a =
                         [&](int r /*t*/) {
                             double t = low + (r / double(divs)) * (high - low);
-                            return kernel(kappa, t, theta, c, sig, base);
+                            return kernel(kappa, t, theta, c, sig, base::PL);
                         };
                 sum2 += beta(j, r, a, t) * gamma_n(t - r, j);
                 //                cerr << " t= " << t << ",  beta_n(j,r,a,t)=" << beta(j, r, a, t) << ", gamma_n(t-r,j)=" << gamma_n(t-r, j)

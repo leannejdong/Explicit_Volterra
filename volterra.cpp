@@ -4,14 +4,14 @@
 #include "volterra.h"
 #include <iostream>
 #include <cmath>
-#include <iomanip>
+#include <algorithm>
+#include <functional>
 #include <string>
 #include <cassert>
 //#include <ranges>
 #include <numeric>
 using namespace std;
 //using namespace std::ranges;
-using std::cerr;
 
 // Returns factorial of n
 //static double fact(int n)
@@ -28,38 +28,9 @@ static double fact(int n)
         product *= n;
         --n;
     }
-
     return product;
 }
 
-template <typename A>
-static double ar(int r, double /*t*/, const A &a)
-{
-    return a(r);
-}
-
-double
-volterra::beta(int n, int r, std::function<double(int r)> a, double t)
-{
-    double value = 0;
-    int l;
-
-    if (n==0 || r==0){
-        return 1;
-    }
-    else if (n==1 || r>=0){
-        return ar(r, t, a);
-    }
-    else {
-        for (l = 0; l <= n; l++)
-        {
-            value +=
-                    beta(n, r, a, t) +
-                    ar(l, t, a)*beta(n-l, r, a, t);
-        }
-        return value;
-    }
-}
 #if 0
 double volterra::rect(double t){
     return ((t>=1)  && (t< 0)? 1 : 0);
@@ -73,10 +44,10 @@ double volterra::rect(double t){
 //    norminf = *std::max_element(x, x+n);
 //}
 
-double volterra::findError(double h1,double h2)
-{
-    return fabs(h1-h2);
-}
+//double volterra::findError(double h1,double h2)
+//{
+//    return fabs(h1-h2);
+//}
 
 double volterra::gamma_n(double t, int n)
 {
