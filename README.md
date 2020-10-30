@@ -6,5 +6,12 @@ Here we perform some mathematical calculation for our volterra explicit algorith
 
 - [volterra-explicit](https://arxiv.org/abs/1908.02862)
 
+## System requirements
+
+Explicit_Volterra builds and run on Linux and MacOS. The software depends on a modern C++ compiler 
+that supports C++11 (and preferably above), on CMake (>=3.12).
+
+## Status: Under development 
+
 Demo of Power Law completed. Back to exponential law next weekend.
 
