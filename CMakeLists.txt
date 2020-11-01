@@ -9,3 +9,5 @@ add_executable(Explicit_Volterra main.cpp volterra.cpp)
 target_compile_options(
         Explicit_Volterra PRIVATE -Wall -Wextra -pedantic -Werror
 )
+
+set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -fsanitize=address -g -O1")
