@@ -39,13 +39,31 @@ double h(double t, const std::vector<double> &ts, double kappa, double theta)
 {
     using std::exp;
     double sum1 = 0;
-    std::ofstream of_sum1("outputs/sum1_exp.txt");
     for (double ti : ts) {
         sum1 += kappa*theta*exp(-theta*(t-ti));
-        of_sum1 << setw(10) << ti << setw(20) << sum1 << "\n";
     }
 
     return sum1;
+}
+
+void test(double kappa, double theta)
+{
+    cout << fixed << setprecision(6);
+    double low = 0;
+    double high = 10;
+    int divs = 100;
+    std::vector<double> ts;
+
+    for (int i=0; i<=divs; ++i) {
+        double t = low + (i/double(divs))*(high-low);
+        ts.push_back(t);
+    }
+
+    std::ofstream of_sum1("outputs/sum1_exp.txt");
+    for (double t: ts) {
+        h(t, ts, kappa, theta);
+        of_sum1 << setw(10) << t << setw(20) << h(t, ts, kappa, theta) << "\n";
+    }
 }
 
 int main() {
@@ -59,17 +77,14 @@ int main() {
     double kappa, theta, c, sig;
    // std::string base;
 
-    n = 80; nn = 5;
+    n = 10; nn = 5;
     //kappa = 0.80; theta = 0.8; c = 10; // PL
     kappa = 0.60; theta = 0.8; // Exp
 
     cout << fixed << setprecision(6);
-
-    int divs = 100;
+    int divs = 10;
     double low = 0;
     double high = n;
-    std::vector<double> ts;
-
     std::ofstream of_beta("outputs/beta_n_exp.txt");
     std::ofstream of_gamma("outputs/gamma_n_exp.txt");
     std::ofstream of_sum2("outputs/sum2_exp.txt");
@@ -78,10 +93,7 @@ int main() {
     for (int i = 0; i <=divs; ++i)
     {
         double t = low + (i/double(divs))*(high-low);
-        ts.push_back(t);
         double sum2 = 0.0;
-//        sum1 += kernel(kappa, t, theta, c, sig, base::Exp);
-//        of_sum1 << setw(10) << t << setw(20) << sum1 << "\n";
         for (int j=1; j<nn+1; ++j){
             for (double r=0; r<j-1; ++r) {
                 auto a =
@@ -101,10 +113,6 @@ int main() {
         //cerr << " t= " << t  << ", gamma_n(t, n)=" << gamma_n(t, n)  <<" , h_n=" << sum2 << "\n";
     }
 
-    for (double t: ts)
-    {
-        h(t, ts, kappa, theta);
-    }
 
     return 0;
 }

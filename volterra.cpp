@@ -10,6 +10,7 @@
 #include <cassert>
 //#include <ranges>
 #include <numeric>
+#include <vector>
 using namespace std;
 //using namespace std::ranges;
 
