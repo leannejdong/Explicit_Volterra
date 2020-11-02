@@ -46,7 +46,9 @@ int main() {
     double kappa, theta, c, sig;
    // std::string base;
 
-    n = 80; nn = 5; kappa = 0.80; theta = 0.8; c = 10;
+    n = 80; nn = 5;
+    //kappa = 0.80; theta = 0.8; c = 10; // PL
+    kappa = 0.60; theta = 0.8; // Exp
 
     cout << fixed << setprecision(6);
 
@@ -55,23 +57,26 @@ int main() {
     double high = n;
    // cerr << "gamma_n(1200)=" << gamma_n(1200,n) << "\n";
    // std::ofstream of_beta("/home/leanne/CLionProjects/Explicit-Volterra/outputs/beta_n.txt");
-    std::ofstream of_beta("outputs/beta_n.txt");
+    std::ofstream of_beta("outputs/beta_n_exp.txt");
    // std::ofstream of_gamma("/home/leanne/CLionProjects/Explicit-Volterra/outputs/gamma_n.txt");
-    std::ofstream of_gamma("outputs/gamma_n.txt");
-    std::ofstream of_sum2("outputs/sum2.txt");
-    std::ofstream of_all("outputs/all.txt");
+    std::ofstream of_gamma("outputs/gamma_n_exp.txt");
+    std::ofstream of_sum2("outputs/sum2_exp.txt");
+    std::ofstream of_sum1("outputs/sum1_exp.txt");
+    std::ofstream of_all("outputs/all_exp.txt");
 
     for (int i = 0; i <=divs; ++i)
     {
         double t = low + (i/double(divs))*(high-low);
+        double sum1 = 0.0;
         double sum2 = 0.0;
-
+        sum1 += kernel(kappa, t, theta, c, sig, base::Exp);
+        of_sum1 << setw(10) << t << setw(20) << sum1 << "\n";
         for (int j=1; j<nn+1; ++j){
             for (double r=0; r<j-1; ++r) {
                 auto a =
                         [&](int r /*t*/) {
                             double t = low + (r / double(divs)) * (high - low);
-                            return kernel(kappa, t, theta, c, sig, base::PL);
+                            return kernel(kappa, t, theta, c, sig, base::Exp);
                         };
                 sum2 += beta(j, r, a, t) * gamma_n(t - r, j);
                 //                cerr << " t= " << t << ",  beta_n(j,r,a,t)=" << beta(j, r, a, t) << ", gamma_n(t-r,j)=" << gamma_n(t-r, j)
