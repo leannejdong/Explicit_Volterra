@@ -83,7 +83,7 @@ int main() {
                 //                     << " h_n= " << sum2 << "\n";
                 of_gamma << gamma_n(t-r, j) << "\n";
                 of_beta << beta(j, r, a, t) << "\n";
-                of_sum2 << sum2 << "\n";
+                of_sum2 << setw(10) << t << setw(20) << sum2 << "\n";
                 of_all << setw(10) << t << setw(20)<< gamma_n(t-r, j) << "," << setw(20) << beta(j, r, a, t) << setw(20) << sum2 << "\n";
             }
         }
