@@ -35,6 +35,19 @@ kernel(
     }
 }
 
+double h(double t, const std::vector<double> &ts, double kappa, double theta)
+{
+    using std::exp;
+    double sum1 = 0;
+    std::ofstream of_sum1("outputs/sum1_exp.txt");
+    for (double ti : ts) {
+        sum1 += kappa*theta*exp(-theta*(t-ti));
+        of_sum1 << setw(10) << ti << setw(20) << sum1 << "\n";
+    }
+
+    return sum1;
+}
+
 int main() {
     using volterra::rect;
     using volterra::beta;
@@ -55,22 +68,20 @@ int main() {
     int divs = 100;
     double low = 0;
     double high = n;
-   // cerr << "gamma_n(1200)=" << gamma_n(1200,n) << "\n";
-   // std::ofstream of_beta("/home/leanne/CLionProjects/Explicit-Volterra/outputs/beta_n.txt");
+    std::vector<double> ts;
+
     std::ofstream of_beta("outputs/beta_n_exp.txt");
-   // std::ofstream of_gamma("/home/leanne/CLionProjects/Explicit-Volterra/outputs/gamma_n.txt");
     std::ofstream of_gamma("outputs/gamma_n_exp.txt");
     std::ofstream of_sum2("outputs/sum2_exp.txt");
-    std::ofstream of_sum1("outputs/sum1_exp.txt");
     std::ofstream of_all("outputs/all_exp.txt");
 
     for (int i = 0; i <=divs; ++i)
     {
         double t = low + (i/double(divs))*(high-low);
-        double sum1 = 0.0;
+        ts.push_back(t);
         double sum2 = 0.0;
-        sum1 += kernel(kappa, t, theta, c, sig, base::Exp);
-        of_sum1 << setw(10) << t << setw(20) << sum1 << "\n";
+//        sum1 += kernel(kappa, t, theta, c, sig, base::Exp);
+//        of_sum1 << setw(10) << t << setw(20) << sum1 << "\n";
         for (int j=1; j<nn+1; ++j){
             for (double r=0; r<j-1; ++r) {
                 auto a =
@@ -88,6 +99,11 @@ int main() {
             }
         }
         //cerr << " t= " << t  << ", gamma_n(t, n)=" << gamma_n(t, n)  <<" , h_n=" << sum2 << "\n";
+    }
+
+    for (double t: ts)
+    {
+        h(t, ts, kappa, theta);
     }
 
     return 0;
