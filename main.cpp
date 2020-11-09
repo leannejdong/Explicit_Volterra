@@ -35,34 +35,26 @@ kernel(
     }
 }
 
-double h(double t, const std::vector<double> &ts, double kappa, double theta)
+double h(double t, double kappa, double theta)
 {
     using std::exp;
-    double sum1 = 0;
-    std::ofstream of_sum1("outputs/sum1_exp.txt");
-    for (double ti : ts) {
-        sum1 += kappa*theta*exp(-theta*(t-ti));
-        of_sum1 << setw(10) << ti << setw(20) << sum1 << "\n";
-    }
-    return sum1;
+    if (t < 0) return 0;
+    return kappa*theta*exp(-theta*t*(1-kappa));
 }
 
 void test(double kappa, double theta)
 {
     cout << fixed << setprecision(6);
     double low = 0;
-    double high = 10;
+    double high = 100;
     int divs = 100;
-    std::vector<double> ts;
+    kappa = 0.8; theta = 0.9;
 
     for (int i=0; i<=divs; ++i) {
         double t = low + (i/double(divs))*(high-low);
-        ts.push_back(t);
+        cerr << "t = " << t << " h_n(t)=" << h(t, kappa, theta) << " \n";
     }
 
-    for (double t: ts) {
-        h(t, ts, kappa, theta);
-    }
 }
 
 int main() {
@@ -81,16 +73,15 @@ int main() {
     kappa = 0.60; theta = 0.8; // Exp
 
     cout << fixed << setprecision(6);
-    double t = 1.0;
+    int n = 100;
     int divs = 100;
     double low = 0;
-    double high = 1.0;
-    std::vector<double> ts;
+    double high = n;
+    std::ofstream of_sum1("outputs/sum1_exp.txt");
     for (int i=0; i<=divs; ++i) {
-        double ti = low + (i/double(divs))*(high-low);
-        ts.push_back(ti);
+        double t = low + (i/double(divs))*(high-low);
+        of_sum1 << setw(10) << i << setw(20) << h(t, kappa, theta) << "\n";
     }
-    h(t, ts, kappa, theta);
 
 
     std::ofstream of_beta("outputs/beta_n_exp.txt");
