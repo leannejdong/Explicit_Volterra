@@ -13,5 +13,5 @@ that supports C++11 (and preferably above), on CMake (>=3.12).
 
 ## Status: Under development 
 
-Demo of Power Law completed. Back to exponential law next weekend.
+Demo of Power Law and Exponential Law kernel completed. 
 

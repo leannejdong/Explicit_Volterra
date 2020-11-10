@@ -74,12 +74,12 @@ int main() {
 
     cout << fixed << setprecision(6);
     int n = 100;
-    int divs = 100;
+    int divs = 1000;
     double low = 0;
     double high = n;
     std::ofstream of_sum1("outputs/sum1_exp.txt");
     for (int i=0; i<=divs; ++i) {
-        double t = low + (i/double(divs))*(high-low);
+        double t = low * (double(divs) - i)/divs + double(i)/divs * high;
         of_sum1 << setw(10) << i << setw(20) << h(t, kappa, theta) << "\n";
     }
 
